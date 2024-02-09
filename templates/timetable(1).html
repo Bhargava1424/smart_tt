@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+{% for section in sections %}
+<h2 class="secHead">{{ section.section_id }} ({{ section.department }})</h2>
+<table class="table2">
+    <colgroup>
+        <col span="1" style="width: 10%;">
+        {% for _ in days %}<col span="1" style="width: 12%;">{% endfor %}
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Time</th>
+            {% for day in days %}
+            <th>{{ day }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for time in times %}
+        <tr>
+            <th>{{ time }}</th>
+            {% for day in days %}
+            <td>
+                {% for class in schedule %}
+                {% if class.section == section.section_id %} 
+                    {% if day in class.meeting_time and time in class.meeting_time %}
+                    {{ class.meeting_time}}
+                    {{ class.course.course_name }}<br>
+                    {{ class.room.room_number }}<br>
+                    {{ class.instructor.name }}
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+<div class="extra">
+</div>
+{% endblock %}
